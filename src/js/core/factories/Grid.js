@@ -2383,6 +2383,12 @@ angular.module('ui.grid')
 
         // If the scroll position we need to see the row is LESS than the top boundary, i.e. obscured above the top of the self...
         if (pixelsToSeeRow < topBound) {
+          pixelsToSeeRow -= (bottomBound - topBound) / 2;
+
+          // Don't let the pixels required to see the row be less than zero
+          pixelsToSeeRow = (pixelsToSeeRow < 0) ? 0 : pixelsToSeeRow;
+
+
           // Get the different between the top boundary and the required scroll position and subtract it from the current scroll position\
           //   to get the full position we need
           scrollPixels = self.renderContainers.body.prevScrollTop - (topBound - pixelsToSeeRow);
@@ -2393,6 +2399,11 @@ angular.module('ui.grid')
         }
         // Otherwise if the scroll position we need to see the row is MORE than the bottom boundary, i.e. obscured below the bottom of the self...
         else if (pixelsToSeeRow > bottomBound) {
+          pixelsToSeeRow += (bottomBound - topBound) / 2;
+
+          // Don't let the pixels required to see the row be less than zero
+          pixelsToSeeRow = (pixelsToSeeRow < 0) ? 0 : pixelsToSeeRow;
+
           // Get the different between the bottom boundary and the required scroll position and add it to the current scroll position
           //   to get the full position we need
           scrollPixels = pixelsToSeeRow - bottomBound + self.renderContainers.body.prevScrollTop;
